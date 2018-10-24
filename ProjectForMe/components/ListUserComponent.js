@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import {
     TouchableOpacity,
-    Dimensions, Platform, StyleSheet,
+    Dimensions, Platform, StyleSheet, Alert,
     View, Text, Image, FlatList
 } from 'react-native';
 import {getListUser} from "../server/Server";
+import {ListUserScreen, DetailUserScreen} from "./screenNames";
 
 class UserItem extends Component {
     constructor(props) {
@@ -37,6 +38,15 @@ class UserItem extends Component {
 }
 
 export default class ListUserComponent extends Component {
+
+    static navigationOptions = ({navigation}) => {
+        const {params = {}} = navigation.state;
+        let headerTitle = 'ListUserScreen';
+        let headerStyle = {backgroundColor: 'red'};
+        let headerTitleStyle = {color: 'yellow'};
+        return {headerTitle, headerStyle, headerTitleStyle};
+    };
+
     constructor(props) {
         super(props);
         this.state = {
@@ -62,6 +72,10 @@ export default class ListUserComponent extends Component {
         this.refreshDataFromServer();
     };
 
+    _onPressItem(item) {
+        alert("Duan");
+    }
+
     render() {
         return (
             <View style={{flex: 1, marginTop: Platform.OS === 'ios' ? 34 : 0}}>
@@ -71,11 +85,16 @@ export default class ListUserComponent extends Component {
                     keyExtractor={(item) => item.node_id}
                     renderItem={({item, index}) => {
                         return (
-                            <UserItem
-                                item={item}
-                                index={index}
-                                parentFlatList={this}>
-                            </UserItem>
+                            <TouchableOpacity
+                                onPress={() => {
+                                    this._onPressItem(item);
+                                }}>
+                                <UserItem
+                                    item={item}
+                                    index={index}
+                                    parentFlatList={this}>
+                                </UserItem>
+                            </TouchableOpacity>
                         );
                     }}/>
             </View>
