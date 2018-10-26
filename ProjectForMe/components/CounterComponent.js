@@ -28,6 +28,7 @@ export default class CounterComponent extends Component {
                         onPress={() => {
                             // alert("Increment");
                             // Action will be call in container
+                            console.log("onPress: Increment");
                             this.props.onIncrement(3);
                         }}>
                         Increment +
@@ -38,6 +39,7 @@ export default class CounterComponent extends Component {
                         onPress={() => {
                             // alert("Decrement");
                             // Action will be call in container
+                            console.log("onPress: Decrement");
                             this.props.onDecrement(1);
                         }}>
                         Decrement -

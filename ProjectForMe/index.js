@@ -12,26 +12,40 @@ import ListUserVersionTwoComponent from './components/ListUserVersionTwoComponen
 import TestButtonReactNativeComponent from './components/TestButtonReactNativeComponent';
 import CounterComponent from './components/CounterComponent';
 
+// Redux
 import {Provider} from 'react-redux';
-import {createStore} from 'redux';
+import {createStore, applyMiddleware} from 'redux';
+
 import allReducers from './reducers';
 import CounterContainer from './containers/CounterContainer';
 
-let store = createStore(allReducers);
+// Redux Saga
+import createSagaMiddleware from 'redux-saga';
+// Middleware
+const sagaMiddleware = createSagaMiddleware();
+import rootSaga from './sagas/rootSaga';
 
+let store = createStore(allReducers, applyMiddleware(sagaMiddleware));
 const sagaDemo = () => (
     <Provider store={store}>
         <CounterContainer/>
     </Provider>
 );
+sagaMiddleware.run(rootSaga);
 
 const appDemo = createStackNavigator({
     ListUserScreen: {
-        screen: ListUserComponent,
+        screen: ListUserVersionTwoComponent,
+        // navigationOptions: {  /*Co the custom lai*/
+        //     headerTitle: 'List user screen'
+        // }
     },
     DetailUserScreen: {
         screen: DetailUserComponent,
-    }
+        // navigationOptions: {
+        //     headerTitle: 'Detail'
+        // }
+    },
 });
 
-AppRegistry.registerComponent(appName, () => sagaDemo);
+AppRegistry.registerComponent(appName, () => appDemo);

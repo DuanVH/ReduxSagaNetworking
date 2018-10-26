@@ -5,9 +5,12 @@ import {
 } from 'react-native';
 export default class DetailUserComponent extends Component {
     render() {
+        const {navigation} = this.props;
+        let data = this.props.navigation.state.params;
+        console.log(`this.props.navigation = ${JSON.stringify(this.props.navigation)}`);
         return(
             <View >
-                <Text>Vu Huu Duan</Text>
+                <Text>{data.login}</Text>
             </View>
         )
     }

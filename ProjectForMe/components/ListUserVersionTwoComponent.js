@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import {
     Dimensions, Platform, StyleSheet,
-    View, Text, Image, FlatList
+    View, Text, Image, FlatList,
+    TouchableOpacity
 } from 'react-native';
-
+import {ListUserScreen, DetailUserScreen} from "./screenNames";
 import {getUser} from "../server/UserServer";
 
 class UserItem extends Component {
@@ -61,7 +62,12 @@ export default class ListUserVersionTwoComponent extends Component {
         });
     };
 
+    _onPressItem = (item) => {
+        alert(`Login: ${item.login}`)
+    };
+
     render() {
+        const {navigation} = this.props;
         return (
             <View style={{flex: 1, marginTop: Platform.OS === 'ios' ? 30 : 0}}>
                 <FlatList
@@ -69,12 +75,18 @@ export default class ListUserVersionTwoComponent extends Component {
                     data={this.state.users}
                     renderItem={({item, index}) => {
                         return (
-                            <UserItem
-                                item={item}
-                                index={index}
-                                parentFlatList={this}>
-
-                            </UserItem>
+                            <TouchableOpacity
+                                onPress={() => {
+                                    // this._onPressItem(item);
+                                    // console.log(`ITEM: ${JSON.stringify(item)}`);
+                                    navigation.navigate(DetailUserScreen, item);
+                                }}>
+                                <UserItem
+                                    item={item}
+                                    index={index}
+                                    parentFlatList={this}>
+                                </UserItem>
+                            </TouchableOpacity>
                         );
                     }}
                     keyExtractor={(item, index) => item.node_id}/>
